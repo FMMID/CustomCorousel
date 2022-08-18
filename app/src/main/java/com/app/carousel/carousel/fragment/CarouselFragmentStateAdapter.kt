@@ -1,4 +1,4 @@
-package com.app.carousel.fragment_carousel_adapter
+package com.app.carousel.carousel.fragment
 
 import android.view.View
 import androidx.fragment.app.Fragment

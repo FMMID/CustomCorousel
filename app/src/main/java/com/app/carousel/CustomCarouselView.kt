@@ -16,12 +16,12 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
 import androidx.viewpager2.widget.ViewPager2
-import com.app.carousel.delegate_carousel_adapter.CarouselCompositeDelegateAdapter
-import com.app.carousel.delegate_carousel_adapter.ICarouselDelegateAdapter
-import com.app.carousel.fragment_carousel_adapter.BaseFragmentCarouselItem
-import com.app.carousel.fragment_carousel_adapter.CarouselFragmentStateAdapter
-import com.app.carousel.segmented_progress_bar.SegmentParams
-import com.app.carousel.segmented_progress_bar.SegmentedProgressBarListener
+import com.app.carousel.carousel.delegate.CarouselCompositeDelegateAdapter
+import com.app.carousel.carousel.delegate.ICarouselDelegateAdapter
+import com.app.carousel.carousel.fragment.BaseFragmentCarouselItem
+import com.app.carousel.carousel.fragment.CarouselFragmentStateAdapter
+import com.app.carousel.segmentedprogressbar.SegmentParams
+import com.app.carousel.segmentedprogressbar.SegmentedProgressBarListener
 
 
 class CustomCarouselView @JvmOverloads constructor(
@@ -112,8 +112,8 @@ class CustomCarouselView @JvmOverloads constructor(
             onClickListener = onClickElementListener,
             eventObserver = eventObserver,
             adapterISCarousels = carouselDelegateAdapters.toList(),
+            data = dataForDelegateAdapters
         )
-        adapter.swapData(dataForDelegateAdapters)
         viewPager.adapter = adapter
         initProgressBar(dataForDelegateAdapters.size)
     }

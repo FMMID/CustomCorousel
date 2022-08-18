@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.app.carousel.CustomCarouselView
 import com.app.carousel.R
-import com.app.carousel.segmented_progress_bar.SegmentParams
+import com.app.carousel.segmentedprogressbar.SegmentParams
 
 class MainActivity : AppCompatActivity() {
 
