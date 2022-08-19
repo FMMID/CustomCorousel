@@ -8,4 +8,6 @@ abstract class BaseViewHolder<T>(
 ) : RecyclerView.ViewHolder(parent) {
 
     abstract fun bind(item: T)
+
+    abstract fun onRecycled()
 }

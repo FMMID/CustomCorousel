@@ -19,8 +19,6 @@ abstract class CarouselDelegateAdapter<VH : BaseViewHolder<T>, T> : ICarouselDel
         onClickListener: View.OnClickListener
     ): VH
 
-    override fun onRecycled(holder: BaseViewHolder<*>) {}
-
     override fun onCreateViewHolder(
         parent: ViewGroup,
         eventObserver: MutableLiveData<Any>,

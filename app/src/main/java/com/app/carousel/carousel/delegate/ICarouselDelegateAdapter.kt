@@ -14,8 +14,6 @@ interface ICarouselDelegateAdapter {
 
     fun onBindViewHolder(holder: BaseViewHolder<*>, item: Any)
 
-    fun onRecycled(holder: BaseViewHolder<*>)
-
     /** to know that current adapter can work with item at position */
     fun isForViewType(item: Any): Boolean
 }

@@ -27,10 +27,7 @@ open class CarouselCompositeDelegateAdapter(
             .getAdapter(data[position])
             .onBindViewHolder(holder, data[position])
 
-    override fun onViewRecycled(holder: BaseViewHolder<*>) =
-        adapterState
-            .getAdapter(holder.itemViewType)
-            .onRecycled(holder)
+    override fun onViewRecycled(holder: BaseViewHolder<*>) = holder.onRecycled()
 
     override fun getItemCount(): Int = data.size
 }

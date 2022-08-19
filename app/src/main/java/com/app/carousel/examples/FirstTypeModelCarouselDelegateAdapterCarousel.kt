@@ -43,5 +43,7 @@ class FirstTypeModelCarouselDelegateAdapterCarousel :
                 eventObserver.postValue(item.title)
             }
         }
+
+        override fun onRecycled() {}
     }
 }

@@ -40,5 +40,7 @@ class SecondTypeModelCarouselDelegateAdapterCarousel :
             secondDescription.text = item.description
             secondArticle.text = item.article
         }
+
+        override fun onRecycled() {}
     }
 }
