@@ -10,24 +10,25 @@ open class CarouselCompositeDelegateAdapter(
     override val onClickListener: View.OnClickListener,
     override val eventObserver: MutableLiveData<Any> = MutableLiveData(),
     private val adapterISCarousels: List<ICarouselDelegateAdapter>,
-    private val data: List<Any> = emptyList()
-) : RecyclerView.Adapter<BaseViewHolder<*>>(), ICarouselAdapter {
+    private val data: List<ICarouselDelegateModel> = emptyList()
+) : RecyclerView.Adapter<BaseViewHolder<ICarouselDelegateModel>>(), ICarouselAdapter {
 
     protected open var adapterState = AdaptersState(adapterISCarousels.toList())
+    private lateinit var currentItem: ICarouselDelegateModel
 
-    override fun getItemViewType(itemPosition: Int): Int = itemPosition
+    override fun getItemViewType(position: Int): Int {
+        currentItem = data[position]
+        return super.getItemViewType(position)
+    }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> =
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<ICarouselDelegateModel> =
         adapterState
-            .getAdapter(data[viewType])
+            .getAdapter(currentItem)
             .onCreateViewHolder(parent, eventObserver, onClickListener)
 
-    override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) =
-        adapterState
-            .getAdapter(data[position])
-            .onBindViewHolder(holder, data[position])
+    override fun onBindViewHolder(holder: BaseViewHolder<ICarouselDelegateModel>, position: Int) = holder.bind(data[position])
 
-    override fun onViewRecycled(holder: BaseViewHolder<*>) = holder.onRecycled()
+    override fun onViewRecycled(holder: BaseViewHolder<ICarouselDelegateModel>) = holder.onRecycled()
 
     override fun getItemCount(): Int = data.size
 }

@@ -18,6 +18,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.viewpager2.widget.ViewPager2
 import com.app.carousel.carousel.delegate.CarouselCompositeDelegateAdapter
 import com.app.carousel.carousel.delegate.ICarouselDelegateAdapter
+import com.app.carousel.carousel.delegate.ICarouselDelegateModel
 import com.app.carousel.carousel.fragment.BaseFragmentCarouselItem
 import com.app.carousel.carousel.fragment.CarouselFragmentStateAdapter
 import com.app.carousel.segmentedprogressbar.SegmentParams
@@ -107,7 +108,7 @@ class CustomCarouselView @JvmOverloads constructor(
         viewPagerOrientation = orientation
     }
 
-    fun buildViewDelegateCarousel(dataForDelegateAdapters: List<Any>, vararg carouselDelegateAdapters: ICarouselDelegateAdapter) {
+    fun buildViewDelegateCarousel(dataForDelegateAdapters: List<ICarouselDelegateModel>, vararg carouselDelegateAdapters: ICarouselDelegateAdapter) {
         val adapter = CarouselCompositeDelegateAdapter(
             onClickListener = onClickElementListener,
             eventObserver = eventObserver,
@@ -156,6 +157,7 @@ class CustomCarouselView @JvmOverloads constructor(
         segmentProgressBar?.start()
         segmentProgressBar?.isVisible = isVisibleStatePage
         viewPager.orientation = viewPagerOrientation
+        viewPager.offscreenPageLimit = 1
         leftArrow.isVisible = isVisibleSwitchArrow
         rightArrow.isVisible = isVisibleSwitchArrow
         leftArrowPlaceholder.isVisible = isVisibleSwitchArrowPlaceholder

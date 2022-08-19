@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.lifecycle.MutableLiveData
 
-abstract class CarouselDelegateAdapter<VH : BaseViewHolder<T>, T> : ICarouselDelegateAdapter {
+abstract class CarouselDelegateAdapter<VH : BaseViewHolder<T>, T:ICarouselDelegateModel> : ICarouselDelegateAdapter {
 
     protected abstract fun onBindViewHolder(view: View, item: T, viewHolder: VH)
 
@@ -23,14 +23,10 @@ abstract class CarouselDelegateAdapter<VH : BaseViewHolder<T>, T> : ICarouselDel
         parent: ViewGroup,
         eventObserver: MutableLiveData<Any>,
         onClickListener: View.OnClickListener,
-    ): VH {
+    ): BaseViewHolder<ICarouselDelegateModel> {
         val inflatedView = LayoutInflater
             .from(parent.context)
             .inflate(layoutId, parent, false)
-        return createViewHolder(inflatedView, eventObserver, onClickListener)
-    }
-
-    override fun onBindViewHolder(holder: BaseViewHolder<*>, item: Any) {
-        (holder as BaseViewHolder<T>).bind(item as T)
+        return createViewHolder(inflatedView, eventObserver, onClickListener) as BaseViewHolder<ICarouselDelegateModel>
     }
 }

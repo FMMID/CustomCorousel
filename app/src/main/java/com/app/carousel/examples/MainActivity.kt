@@ -9,7 +9,6 @@ import com.app.carousel.segmentedprogressbar.SegmentParams
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var recyclerView: RecyclerView
     private lateinit var carousel: CustomCarouselView
 
     override fun onCreate(savedInstanceState: Bundle?) {

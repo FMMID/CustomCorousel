@@ -10,9 +10,7 @@ interface ICarouselDelegateAdapter {
         parent: ViewGroup,
         eventObserver: MutableLiveData<Any>,
         onClickListener: View.OnClickListener,
-    ): BaseViewHolder<*>
-
-    fun onBindViewHolder(holder: BaseViewHolder<*>, item: Any)
+    ): BaseViewHolder<ICarouselDelegateModel>
 
     /** to know that current adapter can work with item at position */
     fun isForViewType(item: Any): Boolean
