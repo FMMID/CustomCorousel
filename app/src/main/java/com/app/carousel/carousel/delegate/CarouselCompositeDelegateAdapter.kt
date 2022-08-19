@@ -26,7 +26,7 @@ open class CarouselCompositeDelegateAdapter(
             .getAdapter(currentItem)
             .onCreateViewHolder(parent, eventObserver, onClickListener)
 
-    override fun onBindViewHolder(holder: BaseViewHolder<ICarouselDelegateModel>, position: Int) = holder.bind(data[position])
+    override fun onBindViewHolder(holder: BaseViewHolder<ICarouselDelegateModel>, position: Int) = holder.bind(currentItem)
 
     override fun onViewRecycled(holder: BaseViewHolder<ICarouselDelegateModel>) = holder.onRecycled()
 
