@@ -1,4 +1,4 @@
-package com.app.carousel.segmented_progress_bar
+package com.app.carousel.segmentedprogressbar
 
 /**
  * Created by Tiago Ornelas on 18/04/2020.

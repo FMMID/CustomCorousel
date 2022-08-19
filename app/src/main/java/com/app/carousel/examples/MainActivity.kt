@@ -5,11 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.app.carousel.CustomCarouselView
 import com.app.carousel.R
-import com.app.carousel.segmented_progress_bar.SegmentParams
+import com.app.carousel.segmentedprogressbar.SegmentParams
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var recyclerView: RecyclerView
     private lateinit var carousel: CustomCarouselView
 
     override fun onCreate(savedInstanceState: Bundle?) {

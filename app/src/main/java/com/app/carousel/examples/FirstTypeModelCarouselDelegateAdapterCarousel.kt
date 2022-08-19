@@ -4,8 +4,8 @@ import android.view.View
 import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
 import com.app.carousel.R
-import com.app.carousel.delegate_carousel_adapter.BaseViewHolder
-import com.app.carousel.delegate_carousel_adapter.CarouselDelegateAdapter
+import com.app.carousel.carousel.delegate.BaseViewHolder
+import com.app.carousel.carousel.delegate.CarouselDelegateAdapter
 
 class FirstTypeModelCarouselDelegateAdapterCarousel :
     CarouselDelegateAdapter<FirstTypeModelCarouselDelegateAdapterCarousel.FirstTypeModelViewHolder, FirstTypeModel>() {
@@ -24,29 +24,26 @@ class FirstTypeModelCarouselDelegateAdapterCarousel :
         return FirstTypeModelViewHolder(parent, eventObserver, onClickListener)
     }
 
-    override fun isForViewType(items: List<Any>, position: Int): Boolean {
-        return items[position] is FirstTypeModel
+    override fun isForViewType(item: Any): Boolean {
+        return item is FirstTypeModel
     }
 
     class FirstTypeModelViewHolder(
         parent: View,
         val eventObserver: MutableLiveData<Any>,
         onClickListener: View.OnClickListener
-    ) : BaseViewHolder(
-        parent,
-        eventObserver,
-        onClickListener
-    ) {
+    ) : BaseViewHolder<FirstTypeModel>(parent) {
         private val firstTitle: TextView = parent.findViewById(R.id.first_title)
         private val firstDescription: TextView = parent.findViewById(R.id.first_description)
-
-        fun bind(firstModel: FirstTypeModel) {
-            firstTitle.text = firstModel.title
-            firstDescription.text = firstModel.description
+        override fun bind(item: FirstTypeModel) {
+            firstTitle.text = item.title
+            firstDescription.text = item.description
 
             firstTitle.setOnClickListener {
-                eventObserver.postValue(firstModel.title)
+                eventObserver.postValue(item.title)
             }
         }
+
+        override fun onRecycled() {}
     }
 }
