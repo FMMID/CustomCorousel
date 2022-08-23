@@ -14,6 +14,7 @@ abstract class CarouselDelegateAdapter<VH : BaseViewHolder<T>, T:ICarouselDelega
     protected abstract val layoutId: Int
 
     protected abstract fun createViewHolder(
+        //TODO parent -> itemView
         parent: View,
         eventObserver: MutableLiveData<Any>,
         onClickListener: View.OnClickListener

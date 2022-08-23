@@ -13,5 +13,6 @@ interface ICarouselDelegateAdapter {
     ): BaseViewHolder<ICarouselDelegateModel>
 
     /** to know that current adapter can work with item at position */
+    //TODO itemType:Int
     fun isForViewType(item: Any): Boolean
 }
