@@ -4,6 +4,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
 abstract class BaseViewHolder<T : ICarouselDelegateModel>(
+    //TODO это на parent, а itemView, private val нужно убрать
     private val parent: View
 ) : RecyclerView.ViewHolder(parent) {
 

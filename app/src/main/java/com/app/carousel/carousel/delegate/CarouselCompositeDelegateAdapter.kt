@@ -14,8 +14,11 @@ open class CarouselCompositeDelegateAdapter(
 ) : RecyclerView.Adapter<BaseViewHolder<ICarouselDelegateModel>>(), ICarouselAdapter {
 
     protected open var adapterState = AdaptersState(adapterISCarousels.toList())
+
+    //TODO удалить
     private lateinit var currentItem: ICarouselDelegateModel
 
+    //TODO оставить только return data[position].type (смотри комент в ICarouselDelegateModel)
     override fun getItemViewType(position: Int): Int {
         currentItem = data[position]
         return super.getItemViewType(position)
@@ -23,6 +26,7 @@ open class CarouselCompositeDelegateAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<ICarouselDelegateModel> =
         adapterState
+                //TODO передать тип
             .getAdapter(currentItem)
             .onCreateViewHolder(parent, eventObserver, onClickListener)
 
