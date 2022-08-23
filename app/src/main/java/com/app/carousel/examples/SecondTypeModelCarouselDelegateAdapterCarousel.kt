@@ -17,24 +17,24 @@ class SecondTypeModelCarouselDelegateAdapterCarousel :
     }
 
     override fun createViewHolder(
-        parent: View,
+        itemView: View,
         eventObserver: MutableLiveData<Any>,
         onClickListener: View.OnClickListener
     ): SecondTypeModelViewHolder {
-        return SecondTypeModelViewHolder(parent, eventObserver, onClickListener)
+        return SecondTypeModelViewHolder(itemView, eventObserver, onClickListener)
     }
 
-    override fun isForViewType(item: Any): Boolean {
-        return item is SecondTypeModel
+    override fun isForViewType(itemType: Int): Boolean {
+        return itemType == layoutId
     }
 
     class SecondTypeModelViewHolder(
-        parent: View,
+        itemView: View,
         eventObserver: MutableLiveData<Any>,
         onClickListener: View.OnClickListener
-    ) : BaseViewHolder<SecondTypeModel>(parent) {
-        private val secondDescription: TextView = parent.findViewById(R.id.second_description)
-        private val secondArticle: TextView = parent.findViewById(R.id.second_article)
+    ) : BaseViewHolder<SecondTypeModel>(itemView) {
+        private val secondDescription: TextView = itemView.findViewById(R.id.second_description)
+        private val secondArticle: TextView = itemView.findViewById(R.id.second_article)
 
         override fun bind(item: SecondTypeModel) {
             secondDescription.text = item.description
