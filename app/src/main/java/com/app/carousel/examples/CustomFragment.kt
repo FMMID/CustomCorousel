@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.app.carousel.R
-import com.app.carousel.fragment_carousel_adapter.BaseFragmentCarouselItem
+import com.app.carousel.carousel.fragment.BaseFragmentCarouselItem
 
 class CustomFragment : BaseFragmentCarouselItem() {
 

@@ -8,9 +8,9 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
 import com.app.carousel.R
-import com.app.carousel.segmented_progress_bar.Segment
-import com.app.carousel.segmented_progress_bar.SegmentParams
-import com.app.carousel.segmented_progress_bar.SegmentedProgressBarListener
+import com.app.carousel.segmentedprogressbar.Segment
+import com.app.carousel.segmentedprogressbar.SegmentParams
+import com.app.carousel.segmentedprogressbar.SegmentedProgressBarListener
 
 /**
  * Created by Tiago Ornelas on 18/04/2020.

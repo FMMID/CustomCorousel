@@ -1,4 +1,4 @@
-package com.app.carousel.segmented_progress_bar
+package com.app.carousel.segmentedprogressbar
 
 /**
  * Params for segment bar carousel.
