@@ -17,24 +17,24 @@ class FirstTypeModelCarouselDelegateAdapterCarousel :
     }
 
     override fun createViewHolder(
-        parent: View,
+        itemView: View,
         eventObserver: MutableLiveData<Any>,
         onClickListener: View.OnClickListener
     ): FirstTypeModelViewHolder {
-        return FirstTypeModelViewHolder(parent, eventObserver, onClickListener)
+        return FirstTypeModelViewHolder(itemView, eventObserver, onClickListener)
     }
 
-    override fun isForViewType(item: Any): Boolean {
-        return item is FirstTypeModel
+    override fun isForViewType(itemType: Int): Boolean {
+        return itemType == layoutId
     }
 
     class FirstTypeModelViewHolder(
-        parent: View,
+        itemView: View,
         val eventObserver: MutableLiveData<Any>,
         onClickListener: View.OnClickListener
-    ) : BaseViewHolder<FirstTypeModel>(parent) {
-        private val firstTitle: TextView = parent.findViewById(R.id.first_title)
-        private val firstDescription: TextView = parent.findViewById(R.id.first_description)
+    ) : BaseViewHolder<FirstTypeModel>(itemView) {
+        private val firstTitle: TextView = itemView.findViewById(R.id.first_title)
+        private val firstDescription: TextView = itemView.findViewById(R.id.first_description)
         override fun bind(item: FirstTypeModel) {
             firstTitle.text = item.title
             firstDescription.text = item.description

@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.lifecycle.MutableLiveData
 
-abstract class CarouselDelegateAdapter<VH : BaseViewHolder<T>, T:ICarouselDelegateModel> : ICarouselDelegateAdapter {
+abstract class CarouselDelegateAdapter<VH : BaseViewHolder<T>, T : ICarouselDelegateModel> : ICarouselDelegateAdapter {
 
     protected abstract fun onBindViewHolder(view: View, item: T, viewHolder: VH)
 
@@ -14,7 +14,7 @@ abstract class CarouselDelegateAdapter<VH : BaseViewHolder<T>, T:ICarouselDelega
     protected abstract val layoutId: Int
 
     protected abstract fun createViewHolder(
-        parent: View,
+        itemView: View,
         eventObserver: MutableLiveData<Any>,
         onClickListener: View.OnClickListener
     ): VH
