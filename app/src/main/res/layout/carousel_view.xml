@@ -7,8 +7,8 @@
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/carousel_viewPager2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:clickable="true"
         android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -21,7 +21,7 @@
     <View
         android:id="@+id/left_arrow_placeholder"
         android:layout_width="40dp"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:background="@color/carousel_arrow_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +40,7 @@
     <View
         android:id="@+id/right_arrow_placeholder"
         android:layout_width="40dp"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:background="@color/carousel_arrow_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
