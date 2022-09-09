@@ -2,15 +2,18 @@ package com.app.carousel
 
 import SegmentedProgressBar
 import android.content.Context
+import android.graphics.Color
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout
+import androidx.annotation.ColorRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
+import androidx.core.content.withStyledAttributes
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
@@ -23,7 +26,6 @@ import com.app.carousel.carousel.fragment.BaseFragmentCarouselItem
 import com.app.carousel.carousel.fragment.CarouselFragmentStateAdapter
 import com.app.carousel.segmentedprogressbar.SegmentParams
 import com.app.carousel.segmentedprogressbar.SegmentedProgressBarListener
-
 
 class CustomCarouselView @JvmOverloads constructor(
     context: Context,
@@ -49,9 +51,14 @@ class CustomCarouselView @JvmOverloads constructor(
 
     private var viewPagerOrientation = ViewPager2.ORIENTATION_HORIZONTAL
     private var segmentProgressBar: SegmentedProgressBar? = null
-    private var isVisibleSwitchArrowPlaceholder: Boolean = false
-    private var isVisibleSwitchArrow: Boolean = false
+
+    // Видимость элементов
+    private var isVisibleLeftArrow: Boolean = false
+    private var isVisibleRightArrow: Boolean = false
+    private var isVisibleLeftArrowPlaceholder: Boolean = false
+    private var isVisibleRightArrowPlaceholder: Boolean = false
     private var isVisibleStatePage: Boolean = false
+
     private var progressSegmentBarMargin = DEFAULT_MARGIN
     private var segmentParams = SegmentParams(
         radius = DEFAULT_RADIUS,
@@ -66,6 +73,79 @@ class CustomCarouselView @JvmOverloads constructor(
         rightArrow = findViewById(R.id.right_arrow)
         leftArrowPlaceholder = findViewById(R.id.left_arrow_placeholder)
         rightArrowPlaceholder = findViewById(R.id.right_arrow_placeholder)
+
+        attrs?.let { initFromAttrs(context, attrs) }
+        updateViewState()
+    }
+
+    /**
+     * Инициализация параметров View из назначенных в xml
+     */
+    private fun initFromAttrs(context: Context, attrs: AttributeSet) {
+        context.withStyledAttributes(attrs, R.styleable.CustomCarouselView) {
+            isVisibleStatePage = getBoolean(R.styleable.CustomCarouselView_carousel_visible_state_page, false)
+            isVisibleLeftArrow = getBoolean(R.styleable.CustomCarouselView_carousel_left_arrow_visibility, false)
+            isVisibleRightArrow = getBoolean(R.styleable.CustomCarouselView_carousel_right_arrow_visibility, false)
+            isVisibleLeftArrowPlaceholder = getBoolean(
+                R.styleable.CustomCarouselView_carousel_left_arrow_placeholder_visibility,
+                false
+            )
+            isVisibleRightArrowPlaceholder = getBoolean(
+                R.styleable.CustomCarouselView_carousel_right_arrow_placeholder_visibility,
+                false
+            )
+            progressSegmentBarMargin = getDimension(
+                R.styleable.CustomCarouselView_carousel_progress_segment_bar_margin,
+                0f
+            ).dp()
+
+            // Параметры сегментов
+            with(segmentParams) {
+                duration = getInteger(
+                    R.styleable.CustomCarouselView_carousel_segment_duration,
+                    DEFAULT_DURATION.toInt()
+                ).toLong()
+                margin = getDimension(
+                    R.styleable.CustomCarouselView_carousel_progress_segment_bar_margin,
+                    0f
+                ).dp()
+                radius = getDimension(
+                    R.styleable.CustomCarouselView_carousel_segment_radius,
+                    DEFAULT_RADIUS.px()
+                ).dp()
+                segmentBackgroundColor = getColor(
+                    R.styleable.CustomCarouselView_carousel_segment_backgroundColor,
+                    ContextCompat.getColor(context, R.color.carousel_default_segment)
+                )
+                segmentSelectedBackgroundColor = getColor(
+                    R.styleable.CustomCarouselView_carousel_segment_selectedBackgroundColor,
+                    ContextCompat.getColor(context, R.color.carousel_default_selected)
+                )
+                segmentStrokeColor = getColor(
+                    R.styleable.CustomCarouselView_carousel_segment_strokeColor,
+                    Color.BLACK
+                )
+                segmentStrokeWidth = getInteger(
+                    R.styleable.CustomCarouselView_carousel_segment_strokeWidth,
+                    0
+                )
+                segmentSelectedStrokeColor = getColor(
+                    R.styleable.SegmentedProgressBar_segmentSelectedStrokeColor,
+                    Color.BLACK
+                )
+            }
+        }
+    }
+
+    /**
+     * Обновить состояние view в связи с параметрами
+     */
+    private fun updateViewState() {
+        leftArrow.isVisible = isVisibleLeftArrow
+        rightArrow.isVisible = isVisibleRightArrow
+        leftArrowPlaceholder.isVisible = isVisibleLeftArrowPlaceholder
+        rightArrowPlaceholder.isVisible = isVisibleRightArrowPlaceholder
+        invalidate() // попросить перерисоваться (изменение видимости placeholder-ов без этого не будет работать)
     }
 
     override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
@@ -76,12 +156,56 @@ class CustomCarouselView @JvmOverloads constructor(
         return false
     }
 
+    /**
+     * Установить видимость индикатарам перелистывания
+     */
     fun setVisibleSwitchArrow(isVisible: Boolean) {
-        isVisibleSwitchArrow = isVisible
+        isVisibleLeftArrow = isVisible
+        isVisibleRightArrow = isVisible
+        leftArrow.isVisible = isVisibleLeftArrow
+        rightArrow.isVisible = isVisibleRightArrow
     }
 
+    /**
+     * Установить видимость левого индикатора перелистывания
+     */
+    fun setLeftArrowVisible(isVisible: Boolean) {
+        isVisibleLeftArrow = isVisible
+        leftArrow.isVisible = isVisibleLeftArrow
+    }
+
+    /**
+     * Установить видимость правого индикатора перелистывания
+     */
+    fun setRightArrowVisible(isVisible: Boolean) {
+        isVisibleRightArrow = isVisible
+        rightArrow.isVisible = isVisibleRightArrow
+    }
+
+    /**
+     * Установить видимость подложки индикаторов перелистывания
+     */
     fun setVisibleSwitchArrowPlaceholder(isVisible: Boolean) {
-        isVisibleSwitchArrowPlaceholder = isVisible
+        isVisibleLeftArrowPlaceholder = isVisible
+        isVisibleRightArrowPlaceholder = isVisible
+        leftArrowPlaceholder.isVisible = isVisible
+        rightArrowPlaceholder.isVisible = isVisible
+    }
+
+    /**
+     * Установить видимость подложки левого индикатора
+     */
+    fun setVisibleSwitchArrowLeftPlaceholder(isVisible: Boolean) {
+        isVisibleLeftArrowPlaceholder = isVisible
+        leftArrowPlaceholder.isVisible = isVisible
+    }
+
+    /**
+     * Установить видимость подложки правого индикатора
+     */
+    fun setVisibleSwitchArrowRightPlaceholder(isVisible: Boolean) {
+        isVisibleRightArrowPlaceholder = isVisible
+        rightArrowPlaceholder.isVisible = isVisible
     }
 
     fun setVisibleStatePage(isVisible: Boolean) {
@@ -89,15 +213,17 @@ class CustomCarouselView @JvmOverloads constructor(
     }
 
     fun setVisualSegmentParams(params: SegmentParams) {
-        segmentParams.duration = params.duration ?: segmentParams.duration ?: DEFAULT_DURATION
-        segmentParams.margin = params.margin ?: segmentParams.margin
-        segmentParams.radius = params.radius ?: segmentParams.radius
-        segmentParams.segmentCount = params.segmentCount ?: segmentParams.segmentCount
-        segmentParams.segmentBackgroundColor = params.segmentBackgroundColor ?: segmentParams.segmentBackgroundColor
-        segmentParams.segmentSelectedBackgroundColor = params.segmentSelectedBackgroundColor ?: segmentParams.segmentSelectedBackgroundColor
-        segmentParams.segmentStrokeColor = params.segmentStrokeColor ?: segmentParams.segmentStrokeColor
-        segmentParams.segmentStrokeWidth = params.segmentStrokeWidth ?: segmentParams.segmentStrokeWidth
-        segmentParams.segmentSelectedStrokeColor = params.segmentSelectedStrokeColor ?: segmentParams.segmentSelectedStrokeColor
+        with(segmentParams) {
+            duration = params.duration ?: duration ?: DEFAULT_DURATION
+            margin = params.margin ?: margin
+            radius = params.radius ?: radius
+            segmentCount = params.segmentCount ?: segmentCount
+            segmentBackgroundColor = params.segmentBackgroundColor ?: segmentBackgroundColor
+            segmentSelectedBackgroundColor = params.segmentSelectedBackgroundColor ?: segmentSelectedBackgroundColor
+            segmentStrokeColor = params.segmentStrokeColor ?: segmentStrokeColor
+            segmentStrokeWidth = params.segmentStrokeWidth ?: segmentStrokeWidth
+            segmentSelectedStrokeColor = params.segmentSelectedStrokeColor ?: segmentSelectedStrokeColor
+        }
     }
 
     fun setProgressSegmentBarMargin(margin: Int) {
@@ -108,7 +234,10 @@ class CustomCarouselView @JvmOverloads constructor(
         viewPagerOrientation = orientation
     }
 
-    fun buildViewDelegateCarousel(dataForDelegateAdapters: List<ICarouselDelegateModel>, vararg carouselDelegateAdapters: ICarouselDelegateAdapter) {
+    fun buildViewDelegateCarousel(
+        dataForDelegateAdapters: List<ICarouselDelegateModel>,
+        vararg carouselDelegateAdapters: ICarouselDelegateAdapter
+    ) {
         val adapter = CarouselCompositeDelegateAdapter(
             onClickListener = onClickElementListener,
             eventObserver = eventObserver,
@@ -146,22 +275,29 @@ class CustomCarouselView @JvmOverloads constructor(
             clone(this@CustomCarouselView)
             segmentProgressBar?.let {
                 connect(it.id, ConstraintSet.BOTTOM, this@CustomCarouselView.id, ConstraintSet.BOTTOM, DEFAULT_MARGIN)
-                connect(it.id, ConstraintSet.END, this@CustomCarouselView.id, ConstraintSet.END, progressSegmentBarMargin)
-                connect(it.id, ConstraintSet.START, this@CustomCarouselView.id, ConstraintSet.START, progressSegmentBarMargin)
+                connect(
+                    it.id,
+                    ConstraintSet.END,
+                    this@CustomCarouselView.id,
+                    ConstraintSet.END,
+                    progressSegmentBarMargin
+                )
+                connect(
+                    it.id,
+                    ConstraintSet.START,
+                    this@CustomCarouselView.id,
+                    ConstraintSet.START,
+                    progressSegmentBarMargin
+                )
             }
             applyTo(this@CustomCarouselView)
         }
 
         setListeners(countOfItems)
-
-        segmentProgressBar?.start()
         segmentProgressBar?.isVisible = isVisibleStatePage
+        segmentProgressBar?.start()
         viewPager.orientation = viewPagerOrientation
         viewPager.offscreenPageLimit = 1
-        leftArrow.isVisible = isVisibleSwitchArrow
-        rightArrow.isVisible = isVisibleSwitchArrow
-        leftArrowPlaceholder.isVisible = isVisibleSwitchArrowPlaceholder
-        rightArrowPlaceholder.isVisible = isVisibleSwitchArrowPlaceholder
     }
 
     private fun setListeners(countOfItems: Int) {
@@ -199,4 +335,10 @@ class CustomCarouselView @JvmOverloads constructor(
             }
         }
     }
+
+    /**
+     * Методы для преобразования dp в px и назад
+     */
+    private fun Float.dp() = (this / resources.displayMetrics.density).toInt()
+    private fun Int.px() = (this * resources.displayMetrics.density)
 }

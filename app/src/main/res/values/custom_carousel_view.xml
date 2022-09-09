@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CustomCarouselView">
+        <!-- Параметры view -->
+        <attr name="carousel_visible_state_page" format="boolean" />
+
+        <!-- Параметры стрелок переключателей -->
+        <attr name="carousel_left_arrow_visibility" format="boolean" />
+        <attr name="carousel_right_arrow_visibility" format="boolean" />
+        <attr name="carousel_left_arrow_placeholder_visibility" format="boolean" />
+        <attr name="carousel_right_arrow_placeholder_visibility" format="boolean" />
+        <attr name="carousel_progress_segment_bar_margin" format="dimension" />
+
+        <!-- Параметры для сегментов во view -->
+        <attr name="carousel_segment_duration" format="integer" />
+        <attr name="carousel_segment_margin" format="dimension" />
+        <attr name="carousel_segment_radius" format="dimension" />
+        <attr name="carousel_segment_backgroundColor" format="color" />
+        <attr name="carousel_segment_selectedBackgroundColor" format="color" />
+        <attr name="carousel_segment_strokeColor" format="color" />
+        <attr name="carousel_segment_strokeWidth" format="integer" />
+
+    </declare-styleable>
+</resources>
